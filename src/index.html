@@ -1,17 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JavaScript App</title>
+  <script>
+  window.onload = function() {
+    document.getElementById('submitButton').addEventListener('click', function(event) {
+      // prevent the form from submitting in the traditional manner
+      event.preventDefault();
+
+      // get the value from the textarea
+      var body = document.getElementById('body').value;
+
+      // create the fetch options
+      var options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ body: body })
+      };
+
+      // send the POST request
+      fetch('<your-azure-function-url>', options)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          // display the response data
+          document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        });
+    });
+  }
+  </script>
+  <style>
+    #content {
+      display: flex;
+      justify-content: space-between;
+    }
+    #response {
+      white-space: pre;  /* This is to preserve the formatting of the JSON data */
+    }
+  </style>
 </head>
-
 <body>
-  <main>
-    <h1>Vanilla JavaScript App</h1>
-  </main>
-</body>
 
+<h2>UET Event Schema Validator</h2>
+
+<div id="content">
+  <form id="postForm">
+    <label for="body">Body:</label><br>
+    <textarea id="body" name="body" rows="4" cols="50"></textarea><br>
+    <button id="submitButton">Submit</button>
+  </form>
+  <div id="response"></div>
+</div>
+
+</body>
 </html>
