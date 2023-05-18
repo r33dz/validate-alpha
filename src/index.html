@@ -20,7 +20,7 @@
       };
 
       // send the POST request
-      fetch('<your-azure-function-url>', options)
+      fetch('https://ts-schema-validator.azurewebsites.net/api/schema-validator-demo?', options)
         .then(response => response.json())
         .then(data => {
           console.log(data);
